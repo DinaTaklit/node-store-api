@@ -5,7 +5,8 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "populate": "node --experimental-json-modules populate.js"
   },
   "author": "",
   "license": "ISC",
