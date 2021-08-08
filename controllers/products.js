@@ -15,7 +15,7 @@ export const getAllProductsStatic = async (req, res) => {
 // function that get all products dinamically
 
 export const getAllProducts = async (req, res) => {
-    const {featured, company, name, sort, fields} = req.query // destrctured query parameters
+    const {featured, company, name, sort, fields, numericFilters} = req.query // destrctured query parameters
     const queryObject = {} // construct a new query object based on the query we get from the user
 
     // Check for the existance of query parameters
@@ -58,6 +58,27 @@ export const getAllProducts = async (req, res) => {
     const page = Number (req.query.page) || 1 // get the page number
     const limit = Number (req.query.limit) || 10 // get the limit number
     const skip = (page - 1) * limit // calculate the skip number
+
+    // Numeric filters
+    if (numericFilters){
+        // operator map between query and mongo operators
+        const operatorMap = {
+            '>': '$gt',
+            '<': '$lt',
+            '=': '$eq',
+            '>=': '$gte',
+            '<=': '$lte'
+        }
+        // regex that match the operators
+        const regEx = /\b(<|>|=|>=|<=)\b/g
+        // create the filter by replacing the query operators with mongo operators
+        let filters = numericFilters.replace(
+            regEx,
+            (match) => `-${operatorMap[match]}-`
+        )
+        console.log('filters', filters)
+    }
+  
 
     result = result.skip(skip).limit(limit) // apply the limit and skip to the result to get the pagination
 
