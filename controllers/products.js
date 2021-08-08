@@ -53,6 +53,13 @@ export const getAllProducts = async (req, res) => {
         result = result.select(fieldsList) // append fields to the result
     }
 
+    // Pagination
+    const page = Number (req.query.page) || 1 // get the page number
+    const limit = Number (req.query.limit) || 10 // get the limit number
+    const skip = (page - 1) * limit // calculate the skip number
+
+    result = result.skip(skip).limit(limit) // apply the limit and skip to the result to get the pagination
+
     const products = await result // run result query
 
     res.status(200).json({nbHits: products.length, products})
