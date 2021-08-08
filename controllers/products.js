@@ -3,11 +3,12 @@ import Product from '../models/product.js'
 
 // Function that get all products statically
 export const getAllProductsStatic = async (req, res) => {
-    const products = await Product.find({}).
-        sort('-name price')
+    const products = await Product.find({
+        price: {$gt: 30}
+    })
+        .sort('name')
         .select('name price')
-        .limit(10)
-        .skip(5)
+
     res.status(200).json({nbHits: products.length, products})
 }
 
