@@ -10,6 +10,6 @@ export const getAllProductsStatic = async (req, res) => {
 // function that get all products dinamically
 
 export const getAllProducts = async (req, res) => {
-    const products = await Product.find({})
+    const products = await Product.find(req.query)
     res.status(200).json({nbHits: products.length, products})
 }   
