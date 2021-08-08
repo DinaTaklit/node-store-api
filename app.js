@@ -8,21 +8,35 @@ import connectDB from './db/connect.js'
 import notFoundMiddleware from './middleware/not-found.js'
 import errorMiddleware from './middleware/error-handler.js'
 
+// import Routes
+import productRouter from './routes/products.js'
+
 // Congifure the envirement 
 dotenv.config()
-
-// // Create the app 
-const app = express()
-
-// use Middlewares
-app.use(notFoundMiddleware) // handle none existing routes
-app.use(errorMiddleware) // handle errors
-
-// app.use(express.json()) // to use json body requests
 
 // Global variable
 const PORT = process.env.PORT || 3000
 const MONGO_URI = process.env.MONGO_URI
+
+// Create the app 
+const app = express()
+
+// Middlewares
+app.use(express.json()) // to use json body requests
+
+// routes
+// root route
+app.get('/', (req, res) => {
+    res.send('<h1>Store API</h1><a href="/api/v1/products">products route</a>')
+})
+  
+// route to products api
+app.use('/api/v1/products', productRouter)
+
+// Product Middlewares
+app.use(notFoundMiddleware) // handle none existing routes
+app.use(errorMiddleware) // handle errors
+
 
 // Function to start the server
 const start = async () => {
