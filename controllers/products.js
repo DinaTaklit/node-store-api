@@ -3,9 +3,7 @@ import Product from '../models/product.js'
 
 // Function that get all products statically
 export const getAllProductsStatic = async (req, res) => {
-    const products = await Product.find({
-        name: {$regex: search, $options: 'i'}
-    })
+    const products = await Product.find({}).sort('-name price')
     res.status(200).json({nbHits: products.length, products})
 }
 
