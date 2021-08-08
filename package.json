@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Node js Store Api ",
   "main": "app.js",
-  "module": "node",
+  "type": "module",
   "scripts": {
     "start": "nodemon app.js"
   },
